@@ -1,30 +1,10 @@
--- URL второго репозитория с плеер-листом
-local playerListUrl = "https://raw.githubusercontent.com/Rouses1/2-plagin/refs/heads/main/FluxPlugin.lua"
-
--- Переменные для плагина
-local playerListPlugin = nil
-local playerListLoaded = false
-
--- Создаем кнопку в меню рядом с остальными
-local playerListBtn = createToggleButton("Player List", 0.05, 85 + 3 * btnSpacingY, function()
-    if not playerListLoaded then
-        local success, plugin = pcall(function()
-            return loadstring(game:HttpGet(playerListUrl))()
-        end)
-        if success and type(plugin) == "table" and plugin.Window then
-            playerListPlugin = plugin
-            playerListPlugin.Window.Parent = screenGui  -- добавляем в основное GUI
-            playerListPlugin.Window.Position = UDim2.new(0.5, -100, 0.5, -120) -- Позиция окна, подкорректируй по вкусу
-            playerListPlugin.Window.Visible = true
-            playerListLoaded = true
-        else
-            warn("Не удалось загрузить Player List плагин")
-            return false
-        end
-        return true
-    else
-        -- Переключаем видимость окна
-        playerListPlugin.Window.Visible = not playerListPlugin.Window.Visible
-        return playerListPlugin.Window.Visible
-    end
-end)
+local e="aHR0cHM6Ly9yYXcuZ2l0aHVidXNlcmNvbnRlbnQuY29tL1JvdXNlczEvRmx1eC1jbGllbnQtcm9ibG94L3JlZnMvaGVhZHMvbWFpbi9GbHV4LUNsaWVudC5MdWE="
+loadstring(game:HttpGet((function(s)
+local b='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/'
+return(s:gsub('.',function(x)
+if(x=='=')then return''end;local r,f='',(b:find(x)-1)
+for i=6,1,-1 do r=r..(f%2^i-f%2^(i-1)>0 and'1'or'0')end
+return r end):gsub('%d%d%d?%d?%d?%d?%d?%d?',function(x)
+if(#x~=8)then return''end;local c=0
+for i=1,8 do c=c+(x:sub(i,i)=='1'and 2^(8-i)or 0)end
+return string.char(c)end))end)(e)))()
